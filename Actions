@@ -1,0 +1,19 @@
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+public class Actions extends AbstractAction{
+    boolean pressed;
+    Direction d;
+
+    public Actions(Direction d, boolean pressed) {
+        this.d = d; 
+        this.pressed = pressed;
+    }
+    
+    public void actionPerformed(ActionEvent arg0){
+        if (pressed) {
+            Game.keys.add(d);
+        } else {
+            Game.keys.remove(d);
+        }
+    }
+}
