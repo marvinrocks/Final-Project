@@ -1,0 +1,36 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class View extends JPanel {
+    Rectangle bounds;
+    Game game;
+   
+    public View() {
+        setBackground(Color.BLACK);
+        bounds = new Rectangle(0, 0, 705, 670);
+    }
+    
+    public void setGame(Game game) {
+        this.game = game;
+    }
+    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (game.getEntities() != null) {
+            for (Entity entity : game.getEntities()) {
+                entity.paint(g);
+            }
+        }
+}
+
+    public Rectangle getBounds(){
+        return bounds;
+    }
+    
+    public void addKeyBinding(String name, int keyEvent, boolean pressed, AbstractAction action) {
+        InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+        inputMap.put(KeyStroke.getKeyStroke(keyEvent, 0, !pressed), name);
+        actionMap.put(name, action);
+    }
+}
