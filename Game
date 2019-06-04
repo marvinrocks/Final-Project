@@ -16,6 +16,12 @@ public class Game
     Paddle paddle2;
     Ball ball;
     
+    int score1;
+    int score2;
+    
+    int directionX;
+    int directionY;
+    
     List<Entity> entities = new ArrayList<Entity>(20);
     View view;
     double ballX = 0, ballY = 0;
@@ -33,14 +39,16 @@ public class Game
         startTimer();
         view.setGame(this);
         paddle1 = new Paddle(1);
-            paddle2 = new Paddle(2);
+        paddle2 = new Paddle(2);
             ball = new Ball();
-            ballX = 300;
-            ballY = 300;
+            ball.setX(300);
+            ball.setY(300);
             p1X = 30;
             p2X = 650;
             p1Y = 350;
             p2Y = 350;
+            directionX = 2;
+            directionY = 2;
             paddle1.setView(view);
             paddle2.setView(view);
             paddle1.createBindings();
@@ -52,6 +60,15 @@ public class Game
             paddle2.setLocation(new Point((int) p2X, (int) p2Y));
             ball.setLocation(new Point((int) ballX, (int) ballY));
     }
+    
+    public void setDirectionX(int x){
+        directionX = x;
+    }
+    
+    public void setDirectionY(int y){
+        directionY = y;
+    }
+    
     
     public Entity[] getEntities() {
         return entities.toArray(new Entity[0]);
@@ -78,9 +95,50 @@ public class Game
         } else if (keys.contains(Direction.RIGHT_DOWN)) {
             p2Y += 2;
         }
+        
+        ball.x += directionX;
+        ball.y +=directionY;
+        
+        int ballx = (int)(Math.random()* 400 + 150);
+        int bally = (int)(Math.random()* 200 + 150);
+        
+        
+        
+        if (ball.x > 750){ 
+            ball.setX(ballx);
+            ball.setY(bally);
+            score1 += 1;
+            setDirectionX(-1);
+        }
+        if (ball.x < 0){
+            ball.setX(ballx);
+            ball.setY(bally);
+            setDirectionX(1);;
+            score2 += 1;}
+        if (ball.y < 0){
+            setDirectionY(1);}
+        if (ball.y >480){
+            setDirectionY(-1);}
+            
+        if (ball.x == p1X + paddle1.getSize().width){
+            if(ball.y > p1Y && ball.y < p1Y + paddle1.getSize().height){
+                setDirectionX(1);}
+            }
+            
+        
+        if (ball.x == p2X){
+            if(ball.y > p2Y && ball.y < p2Y + paddle2.getSize().height){
+                setDirectionX(-1);}
+            }
+        
+        
+        
+            
 
         paddle1.setLocation(new Point((int) p1X, (int) p1Y));
         paddle2.setLocation(new Point((int) p2X, (int) p2Y));
+        ball.setLocation(new Point((int) ball.x, (int) ball.y));
+        
     }
 
 }
